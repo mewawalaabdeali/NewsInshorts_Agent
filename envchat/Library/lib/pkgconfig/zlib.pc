@@ -1,0 +1,13 @@
+prefix=C:/Projects/Agentic_Chatbot/envchat/Library
+exec_prefix=C:/Projects/Agentic_Chatbot/envchat/Library
+libdir=C:/Projects/Agentic_Chatbot/envchat/Library/lib
+sharedlibdir=C:/Projects/Agentic_Chatbot/envchat/Library/lib
+includedir=C:/Projects/Agentic_Chatbot/envchat/Library/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
