@@ -33,7 +33,7 @@ def load_langgraph_agenticai_app():
                 return
             
             #Initialize and setup the graph based on use case
-            usecase= user_input.get("Selected_usecase")
+            usecase= user_input.get("selected_usecase")
 
             ##Graph Builder
             graph_builder = GraphBuilder(model)
