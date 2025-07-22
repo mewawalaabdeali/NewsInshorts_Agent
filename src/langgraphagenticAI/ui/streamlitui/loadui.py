@@ -9,7 +9,7 @@ class LoadStreamlitUI:
         self.user_controls = {}
 
     def load_streamlit_ui(self):
-        st.set_page_config(page_title=""+ self.config.get_page_title(), layout="centered")
+        st.set_page_config(page_title=" 🤖💬 "+ self.config.get_page_title(), layout="centered")
         st.header(":D"+ self.config.get_page_title())
 
         with st.sidebar:
@@ -31,4 +31,21 @@ class LoadStreamlitUI:
                     st.warning(" Please enter your GROQ API key to proceed. Don't have ? Refer: https://console.groq.com/keys")
 
             self.user_controls["selected_usecase"] = st.selectbox("Select Usecases", usecase_options)
+
+            if self.user_controls["selected_usecase"] == "Chatbot with Web":
+                os.environ["TAVILY_API_KEY"] = self.user_controls["TAVILY_API_KEY"]=st.session_state["TAVILY_API_KEY"]= st.text_input("TAVILY_API_KEY", type="password")
+
+                #validate API key
+                if not self.user_controls["TAVILY_API_KEY"]:
+                    st.warning("Please enter your TAVILY_API_KEY to proceed.")
+
+
+            #if self.user_controls["selected_llm"]=="Openai":
+              #  model_options = self.config.get_openai_model_options()
+             #   self.user_controls["selected_openai_model"] = st.selectbox("Select Model", model_options)
+               # self.user_controls["OPENAI_API_KEY"] = st.session_state["OPEANAI_API_KEY"] = st.text_input("API KEY", type = "password")
+
+              #  if not self.user_controls["OPENAI_API_KEY"]:
+              #     st.warning("Please enter your API key")
+           # self.user_controls["selected_usecase"] = st.selectbox("Select Usecase", usecase_options)
         return self.user_controls
