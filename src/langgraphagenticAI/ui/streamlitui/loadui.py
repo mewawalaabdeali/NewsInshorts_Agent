@@ -7,9 +7,10 @@ class LoadStreamlitUI:
         self.config = Config()
         self.user_controls = {}
 
+
     def load_streamlit_ui(self):
         st.set_page_config(
-            page_title="🤖💬 News In Short",
+            page_title="🤖💬 In Short",
             layout="centered",
             initial_sidebar_state="expanded"
         )
@@ -42,11 +43,13 @@ class LoadStreamlitUI:
             <div style='text-align: center; padding: 1rem;'>
                 <img src='data:image/png;base64,{logo_encoded}' width='200' style='margin-bottom: 10px;'>
                 <h1 style='color: #ffffff; margin-top: 10px;'>News In Short 🚀</h1>
-                <p style='font-size: 1.1rem; color: #f0f0f0;'>Empowering your AI workflows with simplicity and power</p>
+                <p style='font-size: 1.1rem; color: #f0f0f0;'>Your 15seconds NEWS summary</p>
             </div>
             """,
             unsafe_allow_html=True
         )
+        st.session_state.timeframe = ''
+        st.session_state.IsFetchButtonClicked = False
 
         with st.sidebar:
             st.markdown("""
@@ -75,11 +78,21 @@ class LoadStreamlitUI:
 
             self.user_controls["selected_usecase"] = st.selectbox("💡 Select Use Case", usecase_options, help="Select the chatbot behavior or mode")
 
-            if self.user_controls["selected_usecase"] == "Chatbot with Web":
+            if self.user_controls["selected_usecase"] == "Chatbot with Web" or self.user_controls["selected_usecase"]=="AI News":
                 os.environ["TAVILY_API_KEY"] = self.user_controls["TAVILY_API_KEY"] = st.session_state["TAVILY_API_KEY"] = st.text_input("🔑 TAVILY API Key", type="password", help="Required for web-enhanced chatbot use case")
 
                 if not self.user_controls["TAVILY_API_KEY"]:
                     st.warning("Please enter your TAVILY_API_KEY to proceed.")
+
+            if self.user_controls['selected_usecase']=="AI News":
+                st.subheader("AI NEWS Xplorer")
+                with st.sidebar:
+                    time_frame= st.selectbox("Select Time Frame",
+                                             ["Daily", "Weekly","Monthly"],
+                                             index=0)
+                if st.button("Fetch Latest AI News", use_container_width=True):
+                    st.session_state.IsFetchButtonClicked=True
+                    st.session_state.timeframe = time_frame
 
         st.markdown("""
             <hr>
@@ -87,5 +100,7 @@ class LoadStreamlitUI:
                 🌟 Powered by LangGraph + Streamlit UI | Designed by You 🌟
             </div>
         """, unsafe_allow_html=True)
+
+
 
         return self.user_controls
